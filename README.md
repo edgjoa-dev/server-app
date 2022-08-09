@@ -11,6 +11,7 @@ Backend con node js
   #cors
   #dotenv
   #express
+  mongoose
 
 #Dependencias de desarrollo
 
