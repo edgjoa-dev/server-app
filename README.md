@@ -12,6 +12,8 @@ Backend con node js
   #dotenv
   #express
   mongoose
+  bcrypt
+  express-validator
 
 #Dependencias de desarrollo
 
