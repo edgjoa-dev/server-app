@@ -1,4 +1,5 @@
 const { response } = require('express');
+const User = require('../models/user');
 
 
 const userGet = (req, res = response) => {
@@ -19,10 +20,15 @@ const putUser = (req, res = response) => {
 }
 
 
-const postUser = (req, res = response) => {
+const postUser = async(req, res = response) => {
+
+    const body = req.body;
+    const user = new User(body);
+
+    await user.save();
 
     res.json({
-        message: 'Post - Controllers - User',
+        user
     });
 }
 
