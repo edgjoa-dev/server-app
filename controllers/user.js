@@ -3,12 +3,17 @@ const bcryptjs = require('bcrypt');
 const User = require('../models/user');
 
 
-const userGet = (req, res = response) => {
+const userGet = async(req, res = response) => {
 
-    const {q, nombre = 'No name', apikey, page = 1, limit} = req.query;
+    //const {q, nombre = 'No name', apikey, page = 1, limit} = req.query;
+    const { limit=10, from=0 } = req.query;
+
+    const users = await User.find()
+    .skip( Number(from) )
+    .limit( Number(limit) )
 
     res.json({
-        q, nombre, apikey, page, limit
+        users
     });
 }
 
