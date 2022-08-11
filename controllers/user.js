@@ -4,36 +4,26 @@ const User = require('../models/user');
 
 
 const userGet = (req, res = response) => {
+
     const {q, nombre = 'No name', apikey, page = 1, limit} = req.query;
+
     res.json({
-        message: 'Get - Controllers - User',
         q, nombre, apikey, page, limit
     });
 }
 
-const putUser = (req, res = response) => {
-    const { id } = req.params;
 
-    res.status(400).json({
-        message: 'Put - Controllers - User',
-        id
-    });
-}
+
+
+
+
+
 
 
 const postUser = async (req, res = response) => {
 
     const { name, email, password, role } = req.body;
     const user = new User({ name, email, password, role });
-
-    //Verificar si email existe
-    const emailExist = await User.findOne({ email });
-    if (emailExist) {
-        return res.status(400).json({
-            ok: false,
-            message: 'Email already exists'
-        });
-    }
 
     //Hashear password y guardarlo en la base de datos
     const salt = bcryptjs.genSaltSync();
@@ -46,6 +36,30 @@ const postUser = async (req, res = response) => {
         user
     });
 }
+
+
+
+
+
+const putUser = async (req, res = response) => {
+
+    const { id } = req.params;
+    const {_id, password, google, email, ...resto} = req.body;
+
+    //Validar contra base de datos
+if (password) {
+    const salt = bcryptjs.genSaltSync();
+    resto.password = bcryptjs.hashSync(password, salt);
+}
+    const user = await User.findByIdAndUpdate(id, resto);
+
+    res.json({
+        user
+    });
+
+}
+
+
 
 
 const patchUser = (req, res = response) => {
