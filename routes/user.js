@@ -8,11 +8,7 @@ const { validarCampos } = require('../middleware/validar-campos');
 const router = Router();
 
 
-
-
-
 router.get('/', userGet)
-
 
 
 router.put('/:id',[
@@ -21,9 +17,6 @@ router.put('/:id',[
     check('role').custom( isRoleValid ).not().isEmpty(),
     validarCampos
 ], putUser)
-
-
-
 
 
 router.post('/',[
@@ -35,21 +28,14 @@ router.post('/',[
 ],postUser)
 
 
-
-
-
 router.patch('/', patchUser)
 
 
-
-
-
-router.delete('/', deleteUser)
-
-
-
-
-
+router.delete('/:id',[
+    check('id', 'No es es un Id válido').isMongoId(),
+    check('id').custom(existUserId),
+    validarCampos
+], deleteUser)
 
 
 module.exports = router;

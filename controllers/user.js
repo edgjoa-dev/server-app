@@ -29,13 +29,6 @@ const userGet = async(req, res = response) => {
 }
 
 
-
-
-
-
-
-
-
 const postUser = async (req, res = response) => {
 
     const { name, email, password, role } = req.body;
@@ -52,9 +45,6 @@ const postUser = async (req, res = response) => {
         user
     });
 }
-
-
-
 
 
 const putUser = async (req, res = response) => {
@@ -76,19 +66,20 @@ if (password) {
 }
 
 
-
-
 const patchUser = (req, res = response) => {
     res.status(400).json({
-        message: 'Patch - Controllers - User'
+        message: 'Patch'
     });
 }
 
 
-const deleteUser = (req, res = response) => {
-    res.status(400).json({
-        message: 'Delete - Controllers - User'
-    });
+const deleteUser = async (req, res = response) => {
+
+    const { id } = req.params;
+    //const user = await User.findByIdAndUpdate(id, { state: false });
+    const user = User.findByIdAndDelete(id);
+
+    res.json( user );
 }
 
 
