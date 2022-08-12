@@ -7,12 +7,23 @@ const userGet = async(req, res = response) => {
 
     //const {q, nombre = 'No name', apikey, page = 1, limit} = req.query;
     const { limit=10, from=0 } = req.query;
+    const query = { state: true };
 
-    const users = await User.find()
-    .skip( Number(from) )
-    .limit( Number(limit) )
+    // const users = await User.find(query)
+    // .skip( Number(from) )
+    // .limit( Number(limit) )
+
+    // const total = await User.countDocuments(query)
+
+    const [totalArray, users] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query)
+            .skip( Number(from) )
+            .limit( Number(limit) )
+    ])
 
     res.json({
+        totalArray,
         users
     });
 }
